@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './App.less';
 import { useStyles } from 'react-styles-hook';
 import { Input } from 'antd';
+import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 
 const styles = useStyles({
   app: {
@@ -23,13 +24,13 @@ const styles = useStyles({
 
 function App() {
 
-  const [name, setName] = useState();
-  const [nativeName, setNativeName] = useState();
-  const [flag, setFlag] = useState();
-  const [capital, setCapital] = useState();
-  const [population, setPopulation] = useState();
-  const [region, setRegion] = useState(); 
-  const [currencies, setCurrencies] = useState(); 
+  const [name, setName] = useState('Canada');
+  const [nativeName, setNativeName] = useState('Canada');
+  const [flag, setFlag] = useState("https://restcountries.eu/data/can.svg");
+  const [capital, setCapital] = useState('Ottawa');
+  const [population, setPopulation] = useState(36155487);
+  const [region, setRegion] = useState('Americas'); 
+  const [currencies, setCurrencies] = useState('$ Canadian dollar'); 
   
   const handleInput = (e) => {
     const url = `https://restcountries.eu/rest/v2/name/${e.target.value}`;
@@ -48,6 +49,7 @@ function App() {
           setNativeName(data[0].nativeName);
           setPopulation(data[0].population);
           setRegion(data[0].region);
+          setCurrencies(data[0].currencies[0].symbol + " " + data[0].currencies[0].name);
         });
       }
     )
@@ -62,7 +64,7 @@ function App() {
         
         <div style={{textAlign: "center"}}>
           <h1>Search Country</h1>
-          <Input maxLength={100} onChange={handleInput} />
+          <Input onChange={handleInput} />
         </div>
 
         <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
@@ -74,9 +76,10 @@ function App() {
             </div>
             <div className='section'>
               <h2>Country Name: {name}</h2>
+              <h2>Region: {region}</h2>
               <h2>Capital City: {capital}</h2>
               <h2>Population: {population}</h2>
-              <h2>Region: {region}</h2>
+              <h2>Currencies: {currencies}</h2>
             </div>
           </div>
 
